@@ -1,8 +1,18 @@
+<<<<<<< HEAD
 Jelizen TodoList
 =
  
 OVERVIEW 
 This is a simple todo list.
+=======
+JELIZEN: TODOLIST
+=
+
+
+OVERVIEW
+
+
+>>>>>>> b337e83e7985cd7d955beb3076dc551c2ea9ddc3
 
 FEATURES
 •	Display list of todo
