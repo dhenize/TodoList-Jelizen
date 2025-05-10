@@ -5,7 +5,6 @@ import edit from './Pics/edit.png';
 import bin from './Pics/delete.png';
 import add from './Pics/plus.png';
 
-
 //FUNCTION
 export default function TodoList() {
   const [todos, setTodos] = useState([]);
@@ -13,6 +12,8 @@ export default function TodoList() {
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
   const [showEditPopup, setShowEditPopup] = useState(false);
+
+  const activeTodos = todos.filter(todo => !todo.completed).length;
 
   function addTodo() {
     if (!input.trim()) return;
@@ -62,73 +63,71 @@ export default function TodoList() {
     setEditText(todo.text);
     setShowEditPopup(true);
   }
-  
 
-  //MAIN FUNCTION AND DESIGNS
   return (
-    <div className='items-center h-[40rem] p-3 rounded-xl'>
+    <div className='items-center h-full p-3 rounded-xl'>
       {/* MAIN SECTION */}
-      <section className='mx-20 my-5'>
-        <div className='flex flex-row gap-5 items-center'>
+      <section className='mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 my-5'>
+        <div className='flex flex-wrap gap-5 items-center'>
           <h1 className='text-3xl font-bold'>Task</h1>
-          <h2 className='bg-[#CC9629] py-1.5 px-6 rounded-md'>{todos.length}</h2>
+          <h2 className='bg-[#CC9629] py-1.5 px-6 rounded-md'>{activeTodos}</h2>
         </div>
 
-        <div className='flex flex-row items-center'>
+        <div className='flex flex-row items-stretch mt-7 gap-0'>
           <input
             type='text'
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder='Enter task here...'
-            className='flex-grow my-7 w-[30rem] h-[3rem] items-center bg-white rounded-l-md border text-sm'
+            className='flex-grow h-[3rem] bg-white rounded-l-md border text-sm px-3'
           />
           <button
             onClick={addTodo}
-            className='flex justify-center items-center bg-[#CC9629] w-[3rem] h-[3rem] rounded-r-md'
+            className='flex justify-center items-center bg-[#CC9629] h-[3rem] rounded-r-md'
           >
             <img src={add} className='h-[2rem]' />
           </button>
         </div>
 
-        <ul className='space-y-3'>
+        <ul className='space-y-3 mt-6'>
           {todos.map((todo) => (
             <li
               key={todo.id}
-              className='flex flex-col md:flex-row items-start md:items-center p-5 my-4 rounded-md bg-[#ECEFCE]'
+              className='flex flex-col sm:flex-row sm:items-start p-5 rounded-md bg-[#ECEFCE]'
             >
-              <div className='flex items-center gap-2'>
+              <div className='flex items-start gap-2 w-full sm:w-2/3'>
                 <input
                   type='checkbox'
                   checked={todo.completed}
                   onChange={() => toggleComplete(todo.id)}
-                  className='accent-[#CC9629] mr-2 h-5 w-5'
+                  className='accent-[#CC9629] h-5 w-5 mt-1'
                 />
-                <span className={`flex-grow ${todo.completed ? 'line-through text-gray-500' : 'text-gray-800'}`}>
-                  {todo.text}
-                </span>
-              </div>
-              
-              <div className='text-xs text-gray-600 mt-1 md:mt-0 md:ml-4'>
-                Created: {todo.createdAt}
-                {todo.completed && <div>Completed: {todo.completedAt}</div>}
+                <div className='flex flex-col overflow-hidden text-left w-full'>
+                  <span className={`break-words text-left pr-4 ${todo.completed ? 'line-through text-gray-500' : 'text-gray-800'}`}>
+                    {todo.text}
+                  </span>
+                  <div className='mt-2 text-xs text-gray-600 flex flex-col items-start text-left'>
+                    <span className='whitespace-pre-line'>Created: {todo.createdAt}</span>
+                    {todo.completed && <span className='whitespace-pre-line'>Completed: {todo.completedAt}</span>}
+                  </div>
+                </div>
               </div>
 
-              <div className='flex gap-2 mt-2 px-5 md:mt-0 md:ml-auto'>
+              <div className='flex gap-2 mt-3 sm:mt-0 sm:ml-auto'>
                 <button onClick={() => startEdit(todo)} className='text-blue-600'>
-                  <img src={edit} alt='Edit' className = "h-5" />
+                  <img src={edit} alt='Edit' className='h-5' />
                 </button>
                 <button onClick={() => deleteTodo(todo.id)}>
-                  <img src={bin} alt='Delete' className = "h-5" />
+                  <img src={bin} alt='Delete' className='h-5' />
                 </button>
               </div>
-
             </li>
           ))}
         </ul>
 
         {showEditPopup && (
-          <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-40 flex justify-center items-center'>
-            <div className='bg-white p-5 rounded shadow-md w-96'>
+          <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-40 flex justify-center items-center z-50'>
+            <div className='bg-white p-5 rounded shadow-md w-11/12 max-w-md'>
               <h2 className='text-lg font-semibold mb-4'>Edit Task</h2>
               <input
                 type='text'
