@@ -1,6 +1,5 @@
-=================
 JELIZEN: TODOLIST
-=================
+
 
 OVERVIEW
 
